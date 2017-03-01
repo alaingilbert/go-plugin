@@ -16,6 +16,7 @@ func main() {
 	defer plugin.Close()
 	plugin.Set("LuaCanCallMe", LuaCanCallMe)
 	plugin.LoadPlugin("./myPlugin.lua")
+	plugin.IsLoaded("./myPlugin.lua") // true
 	ret, _ := plugin.Call("myPlugin.HelloWorld")
 	ret, _ := plugin.Call("myPlugin.OnSomeEvent")
 	ret, _ := plugin.Call("myPlugin.Square", 2)
