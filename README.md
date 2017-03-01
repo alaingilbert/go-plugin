@@ -5,10 +5,7 @@
 ```go
 package main
 
-import (
-	"fmt"
-	"github.com/alaingilbert/go-plugin"
-)
+import "github.com/alaingilbert/go-plugin"
 
 func LuaCanCallMe() string {
 	return "Hello World!"
