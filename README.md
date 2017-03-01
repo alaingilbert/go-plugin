@@ -25,7 +25,7 @@ func main() {
 }
 ```
 
-#### plugin.lua
+#### myPlugin.lua
 ```lua
 function HelloWorld()
     return LuaCanCallMe()
