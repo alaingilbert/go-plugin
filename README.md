@@ -18,10 +18,10 @@ func main() {
 	plugin.Init()
 	defer plugin.Close()
 	plugin.Set("LuaCanCallMe", LuaCanCallMe)
-	plugin.LoadPlugin("./plugin.lua")
-	ret, _ := plugin.Call("HelloWorld")
-	ret, _ := plugin.Call("OnSomeEvent")
-	ret, _ := plugin.Call("Square", 2)
+	plugin.LoadPlugin("./myPlugin.lua")
+	ret, _ := plugin.Call("myPlugin.HelloWorld")
+	ret, _ := plugin.Call("myPlugin.OnSomeEvent")
+	ret, _ := plugin.Call("myPlugin.Square", 2)
 }
 ```
 
