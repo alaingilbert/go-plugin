@@ -62,6 +62,6 @@ end
 https://godoc.org/github.com/alaingilbert/go-plugin
 
 ## Thanking
-Heavily inpired by **micro** plugins system.  
+Heavily inpsired by **micro** plugins system.  
 
 https://github.com/zyedidia/micro
