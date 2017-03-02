@@ -17,7 +17,6 @@ var (
 	plugins map[string]Plugin
 )
 
-// SetFn ...
 // Plugin ...
 type Plugin struct {
 	Path string
@@ -33,10 +32,13 @@ func (p *Plugin) Call(fn string, args ...interface{}) (lua.LValue, error) {
 func (p *Plugin) Unload() error {
 	return Unload(p.Path)
 }
+
+// Set a global variable in lua VM
 func Set(name string, val interface{}) {
 	L.SetGlobal(name, luar.New(L, val))
 }
 
+// IsLoaded returns whether the file is loaded or not in the lua VM
 func IsLoaded(path string) bool {
 	filePath, err := filepath.Abs(path)
 	if err != nil {
@@ -60,6 +62,7 @@ func Unload(path string) error {
 	return nil
 }
 
+// Load plugin functions in lua VM
 func Load(path string) (Plugin, error) {
 	var newPlugin Plugin
 	filePath, _ := filepath.Abs(path)
@@ -79,6 +82,7 @@ func Load(path string) (Plugin, error) {
 	return newPlugin, nil
 }
 
+// Call a function in the lua VM
 func Call(fn string, args ...interface{}) (lua.LValue, error) {
 	var luaFunc lua.LValue
 	if strings.Contains(fn, ".") {
@@ -111,11 +115,13 @@ func Call(fn string, args ...interface{}) (lua.LValue, error) {
 }
 }
 
+// Init the lua VM
 func Init() {
 	L = lua.NewState()
 	plugins = make(map[string]Plugin)
 }
 
+// Close lua VM
 func Close() {
 	L.Close()
 }
