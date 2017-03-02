@@ -48,3 +48,5 @@ end
 
 ## Documentation
 
+https://godoc.org/github.com/alaingilbert/go-plugin
+
