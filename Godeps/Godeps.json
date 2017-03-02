@@ -1,0 +1,44 @@
+{
+	"ImportPath": "github.com/alaingilbert/go-plugin",
+	"GoVersion": "go1.8",
+	"GodepVersion": "v78",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/golang/go/src/sort",
+			"Comment": "go1.8beta2-514-g990124d",
+			"Rev": "990124da2a6ca5a54b38733b51018e2f8758cfae"
+		},
+		{
+			"ImportPath": "github.com/pkg/errors",
+			"Comment": "v0.8.0-2-g248dadf",
+			"Rev": "248dadf4e9068a0b3e79f02ed0a610d935de5302"
+		},
+		{
+			"ImportPath": "github.com/yuin/gopher-lua",
+			"Rev": "eed1c7917d2f4a7bbed5e9bf6a0ce64cbd2918c5"
+		},
+		{
+			"ImportPath": "github.com/yuin/gopher-lua/ast",
+			"Rev": "eed1c7917d2f4a7bbed5e9bf6a0ce64cbd2918c5"
+		},
+		{
+			"ImportPath": "github.com/yuin/gopher-lua/parse",
+			"Rev": "eed1c7917d2f4a7bbed5e9bf6a0ce64cbd2918c5"
+		},
+		{
+			"ImportPath": "github.com/yuin/gopher-lua/pm",
+			"Rev": "eed1c7917d2f4a7bbed5e9bf6a0ce64cbd2918c5"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "61557ac0112b576429a0df080e1c2cef5dfbb642"
+		},
+		{
+			"ImportPath": "layeh.com/gopher-luar",
+			"Rev": "ab3f305945becf90dbde5962755dc044cb78acee"
+		}
+	]
+}
