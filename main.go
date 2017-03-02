@@ -18,6 +18,21 @@ var (
 )
 
 // SetFn ...
+// Plugin ...
+type Plugin struct {
+	Path string
+	Name string
+}
+
+// Call a function for the specific plugin
+func (p *Plugin) Call(fn string, args ...interface{}) (lua.LValue, error) {
+	return Call(p.Name+"."+fn, args...)
+}
+
+// Unload a specific plugin
+func (p *Plugin) Unload() error {
+	return Unload(p.Path)
+}
 func Set(name string, val interface{}) {
 	L.SetGlobal(name, luar.New(L, val))
 }
