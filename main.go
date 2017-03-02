@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/golang/go/src/sort"
 	"github.com/pkg/errors"
 	"github.com/yuin/gopher-lua"
 	"layeh.com/gopher-luar"
@@ -31,6 +32,18 @@ func (p *Plugin) Call(fn string, args ...interface{}) (lua.LValue, error) {
 // Unload a specific plugin
 func (p *Plugin) Unload() error {
 	return Unload(p.Path)
+}
+
+// Each Call clb with each plugins sorted by name
+func Each(clb func(p Plugin)) {
+	var loadedPlugins []Plugin
+	for _, v := range plugins {
+		loadedPlugins = append(loadedPlugins, v)
+	}
+	sort.Slice(loadedPlugins, func(i, j int) bool { return loadedPlugins[i].Name < loadedPlugins[j].Name })
+	for _, v := range loadedPlugins {
+		clb(v)
+	}
 }
 
 // Set a global variable in lua VM
