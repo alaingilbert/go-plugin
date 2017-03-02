@@ -15,15 +15,18 @@ func LuaCanCallMe() string {
 func main() {
 	plugin.Init()
 	defer plugin.Close()
+	
+	// Make the function available inside the plugins
 	plugin.Set("LuaCanCallMe", LuaCanCallMe)
-	p, _ := plugin.Load("./myPlugin.lua")
+	
+	p, err := plugin.Load("./myPlugin.lua")
 	plugin.IsLoaded("./myPlugin.lua") // true
 
-	ret, _ := plugin.Call("myPlugin.HelloWorld")
-	ret, _ := p.Call("OnSomeEvent")
+	ret, err := plugin.Call("myPlugin.HelloWorld")
+	ret, err := p.Call("OnSomeEvent")
 
 	var squared int
-	p.CallUnmarshal(&squared, "Square", 2)
+	err := p.CallUnmarshal(&squared, "Square", 2)
 	
 	// Call each loaded plugins "HelloWorld" function
 	plugin.Each(func(p plugin.Plugin) {
