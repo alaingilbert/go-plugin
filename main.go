@@ -46,6 +46,20 @@ func IsLoaded(path string) bool {
 	return ok
 }
 
+// Unload remove plugin functions from lua VM
+func Unload(path string) error {
+	filePath, _ := filepath.Abs(path)
+	_, fileName := filepath.Split(filePath)
+	fileExt := filepath.Ext(fileName)
+	pluginName := strings.TrimSuffix(fileName, fileExt)
+	str := "\nlocal P = {}\n" + pluginName + " = P\nsetmetatable(" + pluginName + ", {__index = _G})\nsetfenv(1, P)\n"
+	if err := L.DoString(str); err != nil {
+		return errors.Wrap(err, "Unload: Failed to unload plugin")
+	}
+	delete(plugins, filePath)
+	return nil
+}
+
 func Load(path string) (Plugin, error) {
 	var newPlugin Plugin
 	filePath, _ := filepath.Abs(path)
