@@ -23,7 +23,7 @@ func main() {
 	ret, _ := p.Call("OnSomeEvent")
 
 	var squared int
-	p.CallUnmarshal("Square", &squared, 2)
+	p.CallUnmarshal(&squared, "Square", 2)
 	
 	// Call each loaded plugins "HelloWorld" function
 	plugin.Each(func(p plugin.Plugin) {
