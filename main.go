@@ -113,6 +113,12 @@ func Call(fn string, args ...interface{}) (lua.LValue, error) {
 	L.Pop(1)         // remove received value
 	return ret, nil
 }
+
+func CallUnmarshal(fn string, v interface{}, args ...interface{}) error {
+	//var v1 string
+	//json.Unmarshal([]byte(""), &v1)
+	//rv := reflect.ValueOf(v)
+	return nil
 }
 
 // Init the lua VM
