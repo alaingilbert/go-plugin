@@ -47,20 +47,22 @@ func IsLoaded(path string) bool {
 }
 
 func Load(path string) (Plugin, error) {
+	var newPlugin Plugin
 	filePath, _ := filepath.Abs(path)
 	_, fileName := filepath.Split(filePath)
 	fileExt := filepath.Ext(fileName)
 	pluginName := strings.TrimSuffix(fileName, fileExt)
 	data, err := ioutil.ReadFile(filePath)
 	if err != nil {
-		return errors.Wrap(err, "LoadPlugin: Unable to read file")
+		return newPlugin, errors.Wrap(err, "Load: Unable to read file")
 	}
 	pluginDef := "\nlocal P = {}\n" + pluginName + " = P\nsetmetatable(" + pluginName + ", {__index = _G})\nsetfenv(1, P)\n"
 	if err := L.DoString(pluginDef + string(data)); err != nil {
-		return errors.Wrap(err, "LoadPlugin: Unable to execute lua string")
+		return newPlugin, errors.Wrap(err, "Load: Unable to execute lua string")
 	}
-	plugins[filePath] = true
-	return nil
+	newPlugin = Plugin{filePath, pluginName}
+	plugins[filePath] = newPlugin
+	return newPlugin, nil
 }
 
 func Call(fn string, args ...interface{}) (lua.LValue, error) {
