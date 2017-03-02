@@ -14,7 +14,7 @@ import (
 // This is the VM that runs the plugins
 var (
 	L       *lua.LState
-	plugins map[string]bool
+	plugins map[string]Plugin
 )
 
 // SetFn ...
@@ -99,7 +99,7 @@ func Call(fn string, args ...interface{}) (lua.LValue, error) {
 
 func Init() {
 	L = lua.NewState()
-	plugins = make(map[string]bool)
+	plugins = make(map[string]Plugin)
 }
 
 func Close() {
