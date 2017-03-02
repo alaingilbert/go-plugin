@@ -48,7 +48,7 @@ func LoadPlugin(path string) error {
 	return nil
 }
 
-func Call(fn string, args ...interface{}) (ret lua.LValue, err error) {
+func Call(fn string, args ...interface{}) (lua.LValue, error) {
 	var luaFunc lua.LValue
 	if strings.Contains(fn, ".") {
 		plugin := L.GetGlobal(strings.Split(fn, ".")[0])
@@ -66,17 +66,18 @@ func Call(fn string, args ...interface{}) (ret lua.LValue, err error) {
 	for _, v := range args {
 		luaArgs = append(luaArgs, luar.New(L, v))
 	}
-	err = L.CallByParam(lua.P{
+	err := L.CallByParam(lua.P{
 		Fn:      luaFunc,
 		NRet:    1,
 		Protect: true,
 	}, luaArgs...)
 	if err != nil {
-		return
+		return nil, err
 	}
-	ret = L.Get(-1) // returned value
-	L.Pop(1)        // remove received value
-	return
+	ret := L.Get(-1) // returned value
+	L.Pop(1)         // remove received value
+	return ret, nil
+}
 }
 
 func Init() {
