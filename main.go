@@ -32,8 +32,8 @@ func (p *Plugin) Call(fn string, args ...interface{}) (lua.LValue, error) {
 }
 
 // Call function, put result in v
-func (p *Plugin) CallUnmarshal(fn string, v interface{}, args ...interface{}) error {
-	return CallUnmarshal(p.Name+"."+fn, v, args...)
+func (p *Plugin) CallUnmarshal(v interface{}, fn string, args ...interface{}) error {
+	return CallUnmarshal(v, p.Name+"."+fn, args...)
 }
 
 // Unload a specific plugin
@@ -134,7 +134,7 @@ func Call(fn string, args ...interface{}) (lua.LValue, error) {
 	return ret, nil
 }
 
-func CallUnmarshal(fn string, v interface{}, args ...interface{}) error {
+func CallUnmarshal(v interface{}, fn string, args ...interface{}) error {
 	rv := reflect.ValueOf(v)
 	nv := reflect.Indirect(rv)
 	lv, err := Call(fn, args...)
