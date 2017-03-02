@@ -23,9 +23,9 @@ func main() {
 	plugin.Set("LuaCanCallMe", LuaCanCallMe)
 
 	p, err := plugin.Load("./myPlugin.lua")
-	plugin.IsLoaded("./myPlugin.lua") // true
 
 	ret1, err := plugin.Call("myPlugin.HelloWorld")
+	
 	ret2, err := p.Call("OnSomeEvent")
 
 	var squared int
