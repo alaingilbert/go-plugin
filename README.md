@@ -18,9 +18,12 @@ func main() {
 	plugin.Set("LuaCanCallMe", LuaCanCallMe)
 	p, _ := plugin.Load("./myPlugin.lua")
 	plugin.IsLoaded("./myPlugin.lua") // true
+
 	ret, _ := plugin.Call("myPlugin.HelloWorld")
 	ret, _ := p.Call("OnSomeEvent")
-	ret, _ := p.Call("Square", 2)
+
+	var squared int
+	p.CallUnmarshal("Square", &squared, 2)
 	
 	// Call each loaded plugins "HelloWorld" function
 	plugin.Each(func(p plugin.Plugin) {

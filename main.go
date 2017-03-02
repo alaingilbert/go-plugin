@@ -1,8 +1,10 @@
 package plugin
 
 import (
+	errorsPkg "errors"
 	"io/ioutil"
 	"path/filepath"
+	"reflect"
 	"strings"
 
 	"github.com/golang/go/src/sort"
@@ -27,6 +29,11 @@ type Plugin struct {
 // Call a function for the specific plugin
 func (p *Plugin) Call(fn string, args ...interface{}) (lua.LValue, error) {
 	return Call(p.Name+"."+fn, args...)
+}
+
+// Call function, put result in v
+func (p *Plugin) CallUnmarshal(fn string, v interface{}, args ...interface{}) error {
+	return CallUnmarshal(p.Name+"."+fn, v, args...)
 }
 
 // Unload a specific plugin
@@ -128,10 +135,26 @@ func Call(fn string, args ...interface{}) (lua.LValue, error) {
 }
 
 func CallUnmarshal(fn string, v interface{}, args ...interface{}) error {
-	//var v1 string
-	//json.Unmarshal([]byte(""), &v1)
-	//rv := reflect.ValueOf(v)
-	return nil
+	rv := reflect.ValueOf(v)
+	nv := reflect.Indirect(rv)
+	lv, err := Call(fn, args...)
+	switch v.(type) {
+	case *string:
+		if str, ok := lv.(lua.LString); ok {
+			nv.SetString(string(str))
+		}
+	case *int:
+		if nb, ok := lv.(lua.LNumber); ok {
+			nv.SetInt(int64(nb))
+		}
+	case *bool:
+		if b, ok := lv.(lua.LBool); ok {
+			nv.SetBool(bool(b))
+		}
+	default:
+		err = errorsPkg.New("Invalid type")
+	}
+	return err
 }
 
 // Init the lua VM
