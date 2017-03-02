@@ -46,7 +46,7 @@ func IsLoaded(path string) bool {
 	return ok
 }
 
-func LoadPlugin(path string) error {
+func Load(path string) (Plugin, error) {
 	filePath, _ := filepath.Abs(path)
 	_, fileName := filepath.Split(filePath)
 	fileExt := filepath.Ext(fileName)
