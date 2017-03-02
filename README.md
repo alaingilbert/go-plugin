@@ -1,5 +1,6 @@
 # Go-Plugin
 
+## Example
 
 #### main.go
 ```go
@@ -15,11 +16,18 @@ func main() {
 	plugin.Init()
 	defer plugin.Close()
 	plugin.Set("LuaCanCallMe", LuaCanCallMe)
-	plugin.LoadPlugin("./myPlugin.lua")
+	p, _ := plugin.Load("./myPlugin.lua")
 	plugin.IsLoaded("./myPlugin.lua") // true
 	ret, _ := plugin.Call("myPlugin.HelloWorld")
-	ret, _ := plugin.Call("myPlugin.OnSomeEvent")
-	ret, _ := plugin.Call("myPlugin.Square", 2)
+	ret, _ := p.Call("OnSomeEvent")
+	ret, _ := p.Call("Square", 2)
+	
+	// Call each loaded plugins "HelloWorld" function
+	plugin.Each(func(p plugin.Plugin) {
+		if ret, err := p.Call("HelloWorld"); err == nil {
+			fmt.Println(ret)
+		}
+	})
 }
 ```
 
@@ -37,3 +45,6 @@ function Square(x)
     return x * x
 end
 ```
+
+## Documentation
+
