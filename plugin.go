@@ -41,6 +41,12 @@ func (p *Plugin) Unload() error {
 	return Unload(p.Path)
 }
 
+// Reload a specific plugin
+func (p *Plugin) Reload() error {
+	_, err := Load(p.Path)
+	return err
+}
+
 // Each Call clb with each plugins sorted by name
 func Each(clb func(p Plugin)) {
 	var loadedPlugins []Plugin
